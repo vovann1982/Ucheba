@@ -91,7 +91,7 @@ class Pole:
                 cur = Tochka(d.x + dx, d.y + dy)
                 if not (self.out(cur)) and cur not in self.busy:
                     if verb:
-                        self.razmetka[cur.x][cur.y] = "."
+                        self.razmetka[cur.x][cur.y] = "T"
                     self.busy.append(cur)
 
 
@@ -119,7 +119,7 @@ class Pole:
         for koryto in self.koryta:
             if koryto.strelba(d):
                 koryto.lives -= 1
-                self.razmetka[d.x][d.y] = "♣"
+                self.razmetka[d.x][d.y] = "X"
                 if koryto.lives == 0:
                     self.schet += 1
                     print("Попал!")
@@ -128,7 +128,7 @@ class Pole:
                    print("Попал!")
                    return True
 
-        self.razmetka[d.x][d.y] = "."
+        self.razmetka[d.x][d.y] = "T"
         print("Мимо!")
         return False
 
