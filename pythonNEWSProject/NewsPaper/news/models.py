@@ -56,10 +56,6 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.zagolovok.title()}: {self.preview()}'
 
-    def by_time(self):
-        p = self.objects.order_by('-vremia_sosdania_soobsh')
-        self.save()
-        return p
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
