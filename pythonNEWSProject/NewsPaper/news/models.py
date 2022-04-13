@@ -19,8 +19,12 @@ class Author(models.Model):
         self.reyting_author = rSoob * 3 + rComm
         self.save()
 
+
 class Category(models.Model):
     category_name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return self.category_name.title()
 
 
 class Post(models.Model):
@@ -33,7 +37,7 @@ class Post(models.Model):
     )
     type_soobsh = models.CharField(max_length=2, choices=Vybor_soobsh, default=statia)
     vremia_sosdania_soobsh = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ManyToManyField(Category, through='PostCategory', related_name='posts')
     zagolovok = models.TextField()
     tekst = models.TextField()
     reyting_post = models.IntegerField(default=0)
@@ -47,8 +51,15 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return (self.tekst[:124]) + '...'
+        return (self.tekst[:20]) + '...'
 
+    def __str__(self):
+        return f'{self.zagolovok.title()}: {self.preview()}'
+
+    def by_time(self):
+        p = self.objects.order_by('-vremia_sosdania_soobsh')
+        self.save()
+        return p
 
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
