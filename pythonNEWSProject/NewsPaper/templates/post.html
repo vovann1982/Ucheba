@@ -1,12 +1,12 @@
 {% extends 'flatpages/default.html' %}
-
+{%load censor%}
 {% block title %}
 Post
 {% endblock title %}
 
 {% block content %}
-<h2>Заголовок: {{ post.zagolovok }}</h2>
+<h2>Заголовок: {{ post.zagolovok|censor }}</h2>
 <h2>Дата публикации: {{ post.vremia_sosdania_soobsh|date:'d M Y' }}</h2>
 <hr>
-<h4>{{ post.tekst }}</h4>
+<h4>{{ post.tekst|censor }}</h4>
 {% endblock content %}
