@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -26,6 +27,10 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name.title()
 
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+
 
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -35,10 +40,10 @@ class Post(models.Model):
         (novost, 'Новость'),
         (statia, 'Статья'),
     )
-    type_soobsh = models.CharField(max_length=2, choices=Vybor_soobsh, default=statia)
+    type_soobsh = models.CharField(max_length=2, choices=Vybor_soobsh, default=novost)
     vremia_sosdania_soobsh = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, through='PostCategory', related_name='posts')
-    zagolovok = models.TextField()
+    zagolovok = models.CharField(max_length=64)
     tekst = models.TextField()
     reyting_post = models.IntegerField(default=0)
 
@@ -55,6 +60,13 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.zagolovok.title()}: {self.preview()}'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
+
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
 
 
 class PostCategory(models.Model):

@@ -1,12 +1,30 @@
 {% extends 'flatpages/default.html' %}
 {%load censor%}
+
 {% block title %}
 Post
 {% endblock title %}
 
 {% block content %}
-<h2>Заголовок: {{ post.zagolovok|censor }}</h2>
-<h2>Дата публикации: {{ post.vremia_sosdania_soobsh|date:'d M Y' }}</h2>
+<h1> Заголовок: {{ post.zagolovok|censor }}</h1>
+<h3> Дата публикации: {{ post.vremia_sosdania_soobsh|date:'d M Y' }} </h3>
+<h3> {{ post.type_soobsh }} </h3>
 <hr>
-<h4>{{ post.tekst|censor }}</h4>
+<h5> Текст сообщения: {{ post.tekst|censor }} </h5>
+<hr>
+<br>
+{% if post.type_soobsh == 'AR' %}
+    <a href="{% url 'apost_update' post.id %}">Редактировать статью</a><br>
+    <br>
+    <a href="{% url 'apost_delete' post.id %}">Удалить статью</a>
+{% else %}
+    <a href="{% url 'post_update' post.id %}">Редактировать новость</a><br>
+    <br>
+    <a href="{% url 'post_delete' post.id %}">Удалить новость</a>
+{% endif %}
+
+
+<!--<a href="/news/{{ post.id }}">{{ post.zagolovok|censor }}-->
+
+
 {% endblock content %}

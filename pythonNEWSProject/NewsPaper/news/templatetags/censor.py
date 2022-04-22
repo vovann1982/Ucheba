@@ -1,5 +1,6 @@
 from django import template
 
+
 register = template.Library()
 baza_slov = ['редис', 'капуст', 'морков']
 
@@ -28,3 +29,4 @@ def censor(a):
         d.append(item.capitalize())
     a = '. '.join(d)
     return a
+

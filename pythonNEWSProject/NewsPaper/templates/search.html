@@ -1,0 +1,34 @@
+{% extends 'flatpages/default.html' %}
+{% load censor %}
+{% load custom_tags %}
+{% block title %}
+Search
+{% endblock title %}
+
+{% block content %}
+   <h1>Поиск сообщений (последние 10 сообщений)</h1>
+    <h3>Количество сообщений на странице: {{ posts|length }}</h3>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
+<hr>
+   {% if posts %}
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Текст</td>
+           </tr>
+           {% for post in posts %}
+           <tr>
+               <td><a href="/news/{{ post.id }}">{{ post.zagolovok|censor }}</a>></td>
+               <td>{{ post.vremia_sosdania_soobsh|date:'d M Y' }}</td>
+               <td>{{ post.preview|censor}}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+{% endblock content %}
