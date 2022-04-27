@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import UserUpdate
+
 
 urlpatterns = [
+    path('user/', UserUpdate.as_view(), name='user_update'),
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('news/', include('news.urls')),
     path('articles/', include('news.aurls')),
+    path('accounts/', include('allauth.urls')),
+    path('', include('protect.urls')),
+    path('sign/', include('sign.urls')),
 ]
 
